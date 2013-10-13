@@ -1,0 +1,25 @@
+{
+  "name": "libremap-common",
+  "version": "0.1.0",
+  "description": "Shared code for api and webui of LibreMap",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/libremap/libremap-common.git"
+  },
+  "keywords": [
+    "libremap"
+  ],
+  "author": "André Gaul <gaul@web-yard.de>",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/libremap/libremap-common/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.4"
+  }
+}
