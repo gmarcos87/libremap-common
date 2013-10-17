@@ -17,6 +17,10 @@ var isType = module.exports.isType = function (v, t) {
     return _.isObject(v) && !_.isArray(v);
   } else if (t=='date') {
     return v == (new Date(v)).toISOString();
+  } else if (t=='bbox') {
+    if (!isType(v, 'array') || bbox.length!=4 || !_.every(v, _.isNumber)) {
+      return false;
+    }
   }
   throw({err: 'unknown type: '+t});
 };
@@ -132,4 +136,13 @@ module.exports.strip = function (d) {
 // returns [lon,lat] GeoJSON for GeoCouch key
 module.exports.router_coords = function (o) {
   return {type: 'Point', coordinates: [o.location.lon, o.location.lat]};
+};
+
+// check if lat,lon is in the bounding box [lon1,lat1,lon2,lat2]
+// where lon1,lat1 is the southwest and lon2,lat2 is the northeast corner
+module.exports.isInBbox = function (lat, lon, bbox) {
+  if (!isType(bbox, 'bbox')) {
+    return false;
+  }
+  return bbox[0]<=lon && lon<=bbox[2] && bbox[1]<=lat && lat<=bbox[3];
 };
