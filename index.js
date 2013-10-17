@@ -46,7 +46,7 @@ var assertOptional = module.exports.assertOptional = function (o, k, t) {
 // if the object is valid: nothing is returned
 // otherwise: error string
 // (backbone.js-style)
-module.exports.validate_router = function(o) {
+module.exports.router_validate = function(o) {
   try {
     assertHas(o, 'hostname', 'string');
 
@@ -109,4 +109,27 @@ module.exports.validate_router = function(o) {
   catch (e) {
     return e.err;
   }
+};
+
+// remove all 'attributes' from object
+module.exports.strip = function (d) {
+  if (_.isArray(d)) {
+    var arr=[];
+    for (var i=0, cur; (cur=d[i++]);) {
+      arr.push(strip(cur));
+    }
+    return arr;
+  } else if (_.isObject(d)) {
+    var obj = _.omit(d, 'attributes');
+    for (var k in obj) {
+      obj[k] = strip(obj[k]);
+    }
+    return obj;
+  }
+  return d;
+};
+
+// returns [lon,lat] GeoJSON for GeoCouch key
+module.exports.router_coords = function (o) {
+  return {type: 'Point', coordinates: [o.location.lon, o.location.lat]};
 };
