@@ -18,9 +18,7 @@ var isType = module.exports.isType = function (v, t) {
   } else if (t=='date') {
     return v == (new Date(v)).toISOString();
   } else if (t=='bbox') {
-    if (!isType(v, 'array') || bbox.length!=4 || !_.every(v, _.isNumber)) {
-      return false;
-    }
+    return module.exports.bbox(v)!==undefined;
   }
   throw({err: 'unknown type: '+t});
 };
@@ -144,11 +142,47 @@ module.exports.router_coords = function (o) {
   return {type: 'Point', coordinates: [o.location.lon, o.location.lat]};
 };
 
-// check if lat,lon is in the bounding box [lon1,lat1,lon2,lat2]
-// where lon1,lat1 is the southwest and lon2,lat2 is the northeast corner
-module.exports.isInBbox = function (lat, lon, bbox) {
-  if (!isType(bbox, 'bbox')) {
-    return false;
+// this function returns a Bbox object with converter methods.
+//
+// unfortunately, there are several types of bounding boxes out there
+// (lat1,lon1 is south-west; lat2,lon2 is north-east):
+// string (e.g. in url):    lat1,lon1,lat2,lon2
+// leaflet (LatLngBounds):  [[lat1,lon1], [lat2,lon2]]
+// geocouch (spatial view): [lon1, lat1, lon2, lat2]
+//
+// the constructor takes any of the above bbox formats
+module.exports.bbox = function(bbox_in) {
+  // store bbox in array of form [lat1,lon1,lat2,lon2] internally
+  var bbox = [];
+  if (isType(bbox_in, 'string')) {
+    // string incoming
+    bbox = _.map(bbox_in.split(','), parseFloat);
+  } else if (isType(bbox_in, 'array')) {
+    if (bbox_in.length == 2) {
+      // leaflet incoming
+      bbox = _.flatten(bbox_in);
+    } else if (bbox_in.length == 4) {
+      // geocouch incoming
+      bbox = [bbox_in[1],bbox_in[0],bbox_in[3],bbox_in[2]];
+    }
   }
-  return bbox[0]<=lon && lon<=bbox[2] && bbox[1]<=lat && lat<=bbox[3];
+  // check if bbox is valid
+  if (bbox.length!=4 || !_.every(bbox, _.isNumber) || _.some(bbox, _.isNaN) ||
+        bbox[0]>bbox[2] || bbox[1]>bbox[3]) {
+    return undefined;
+  }
+
+  this.toString = function() {
+    return bbox.toString();
+  };
+  this.toLeaflet = function() {
+    return [[bbox[0],bbox[1]], [bbox[2],bbox[3]]];
+  };
+  this.toGeocouch = function() {
+    return [bbox[1],bbox[0],bbox[3],bbox[2]];
+  };
+  this.contains = function(lat, lon) {
+    return bbox[0]<=lat && lat<=bbox[2] && bbox[1]<=lon && lon<=bbox[3];
+  };
+  return this;
 };
