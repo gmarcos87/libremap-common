@@ -2,9 +2,9 @@
   "name": "libremap-common",
   "version": "0.1.0",
   "description": "Shared code for api and webui of LibreMap",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,10 @@
   },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.4"
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-jasmine-node": "~0.1.0"
+  },
+  "dependencies": {
+    "underscore": "~1.5.2"
   }
 }
