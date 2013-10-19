@@ -52,6 +52,12 @@ var assertOptional = module.exports.assertOptional = function (o, k, t) {
 // (backbone.js-style)
 module.exports.router_validate = function(o) {
   try {
+    assertHas(o, 'api_rev', 'string');
+    assertHas(o, 'type', 'string');
+    if (o.type!='router) {
+      throw({err: 'type "router" expected'});
+    }
+
     assertHas(o, 'hostname', 'string');
 
     // check ctime and mtime
