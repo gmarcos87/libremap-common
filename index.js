@@ -54,7 +54,7 @@ module.exports.router_validate = function(o) {
   try {
     assertHas(o, 'api_rev', 'string');
     assertHas(o, 'type', 'string');
-    if (o.type!='router) {
+    if (o.type!='router') {
       throw({err: 'type "router" expected'});
     }
 
