@@ -72,17 +72,15 @@ module.exports.router_validate = function(o) {
     }
 
     // check location
-    assertHas(o, 'location', 'object');
-    var loc = o.location;
-    assertHas(loc, 'lat', 'number');
-    if (loc.lat < -90 || loc.lat > 90) {
+    assertHas(o, 'lat', 'number');
+    if (o.lat < -90 || o.lat > 90) {
       throw({err: 'invalid range: latitude should be between -90 and 90'});
     }
-    assertHas(loc, 'lon', 'number');
-    if (loc.lon < -180 || loc.lon > 180) {
+    assertHas(o, 'lon', 'number');
+    if (o.lon < -180 || o.lon > 180) {
       throw({err: 'invalid range: longitude should be between -180 and 180'});
     }
-    assertOptional(loc, 'elev', 'number');
+    assertOptional(o, 'elev', 'number');
 
     // check aliases
     if (_.has(o, 'aliases')) {
@@ -139,7 +137,7 @@ module.exports.strip = function (d) {
 
 // returns [lon,lat] GeoJSON for GeoCouch key
 module.exports.router_coords = function (o) {
-  return {type: 'Point', coordinates: [o.location.lon, o.location.lat]};
+  return {type: 'Point', coordinates: [o.lon, o.lat]};
 };
 
 // this function returns a Bbox object with converter methods.
