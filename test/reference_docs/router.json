@@ -6,27 +6,29 @@
   "hostname": "awesome-router",
   "ctime": "2013-05-11T13:05:22.000Z",
   "mtime": "2013-09-12T11:14:12.000Z",
-  "lon": -64.424677,
   "lat": -31.805412,
+  "lon": -64.424677,
   "elev": 50,
   "aliases": [
     {
-      "alias": "104.201.0.29",
-      "type": "olsr"
+      "type": "olsr",
+      "alias": "104.201.0.29"
+
     },
     {
-      "alias": "awesome-router.olsr",
-      "type": "olsr"
+      "type": "olsr",
+      "alias": "awesome-router.olsr"
     },
     {
-      "alias": "21:13:f1:a5:a2:20",
-      "type": "batman-adv"
+      "type": "batman-adv",
+      "alias": "21:13:f1:a5:a2:20"
     }
   ],
   "links": [
     {
-      "alias": "104.201.0.64",
       "type": "olsr",
+      "alias_local": "104.201.0.29",
+      "alias_remote": "104.201.0.64",
       "quality": 0.78,
       "attributes": {
         "etx": 2.094,
@@ -35,8 +37,9 @@
       }
     },
     {
-      "alias": "52:23:61:a7:a1:56",
       "type": "batman-adv",
+      "alias_local":"21:13:f1:a5:a2:20",
+      "alias_remote": "52:23:61:a7:a1:56",
       "quality": 0.78
     }
   ],
