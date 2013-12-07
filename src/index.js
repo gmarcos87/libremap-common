@@ -95,7 +95,8 @@ module.exports.router_validate = function(o) {
     if (_.has(o, 'links')) {
       assertType(o.links, 'array');
       for (var j=0, link; (link=o.links[j++]);) {
-        assertHas(link, 'alias', 'string');
+        assertHas(link, 'alias_local', 'string');
+        assertHas(link, 'alias_remote', 'string');
         assertOptional(link, 'type', 'string');
         if (_.has(link, 'quality')) {
           var quality = link.quality;
