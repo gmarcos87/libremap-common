@@ -19,11 +19,11 @@
     "url": "https://github.com/libremap/libremap-common/issues"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-jasmine-node": "~0.1.0"
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-jasmine-node": "^0.3.1"
   },
   "dependencies": {
-    "underscore": "~1.5.2"
+    "underscore": "^1.8.3"
   }
 }
